@@ -28,7 +28,6 @@ public class ScoreDao {
         if (cacheDatabase.getCacheLength() > Constants.cacheDumpLimit) {
             dumpCacheToFile();
         }
-        //cacheDatabase.append(score);
     }
 
     public void dumpCacheToFile() {

@@ -126,7 +126,7 @@ public class MaxHeapMapCache {
     
     private void printMapContents() {
     	for(Map.Entry<String, Integer>e : positions.entrySet()) {
-    		logger.info(e.getKey() + "" + maxHeap[e.getValue()].getScore() + ";");
+    		logger.info(e.getKey() + ": " + maxHeap[e.getValue()].getScore() + "|" + maxHeap[e.getValue()].getTimeStamp() + ";");
     	}
     }
 

@@ -1,9 +1,11 @@
 package com.krati.score_keeper.model;
 
 import java.time.LocalDateTime;
+import java.util.logging.Logger;
 
 public class PlayerScore implements Comparable<PlayerScore> {
-    private final String playerName;
+
+	private final String playerName;
     private final int score;
     private final String timeStamp;
 
@@ -27,17 +29,20 @@ public class PlayerScore implements Comparable<PlayerScore> {
     public int getScore() {
         return this.score;
     }
-
+    
+    public String getTimeStamp() {
+		return timeStamp;
+	}
 
     @Override
     public String toString() {
-        return playerName + "," + score;
+        return playerName + "," + score + "," + timeStamp;
     }
 
     @Override
     public int compareTo(PlayerScore score) {
         if (this.score == score.getScore()) {
-            return LocalDateTime.parse(this.timeStamp).compareTo(LocalDateTime.parse(this.timeStamp));
+        	return LocalDateTime.parse(score.timeStamp).compareTo(LocalDateTime.parse(this.timeStamp));
         }
         return this.score > score.getScore() ? 1 : -1;
     }
