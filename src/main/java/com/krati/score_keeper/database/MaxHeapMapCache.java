@@ -75,9 +75,11 @@ public class MaxHeapMapCache {
         }
         PlayerScore playerScore = maxHeap[0];
         positions.remove(playerScore.getPlayerName());
-        PlayerScore minPlayerScore = maxHeap[size - 1];
-        positions.put(minPlayerScore.getPlayerName(), 0);
-        maxHeap[0] = minPlayerScore;
+        if(size > 1) {
+        	PlayerScore minPlayerScore = maxHeap[size - 1];
+            positions.put(minPlayerScore.getPlayerName(), 0);
+            maxHeap[0] = minPlayerScore;
+        }
         size--;
         sink(0);
         return playerScore;
@@ -100,9 +102,9 @@ public class MaxHeapMapCache {
     }
 
     private void sink(int currentPosition) {
-    	if (2*currentPosition >= size)
+    	if (2*currentPosition + 1 >= size)
             return;
-        int leftChildPosition = currentPosition << 1;
+        int leftChildPosition = (currentPosition << 1) + 1;
         int greaterChildPosition = leftChildPosition;
         
         PlayerScore currentScore = maxHeap[currentPosition];
