@@ -26,10 +26,6 @@ public class ScoreProcessor {
     }
 
     public List<PlayerScore> getTop5Scores() {
-        //List<PlayerScore> scoreProcessorsList = scoreDao.getPlayerScoresFromFile();
-        //maxHeapMapCache = MaxHeapMapCache.getInstance();
-        //scoreProcessorsList.forEach(score -> maxHeapMapCache.addScore(score));
-        //getTop5
         return maxHeapMapCache.getTopKScores(5);
     }
 
