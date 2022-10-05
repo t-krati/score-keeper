@@ -33,6 +33,10 @@ public class PlayerScore implements Comparable<PlayerScore> {
     public String toString() {
         return playerName + "," + score + "," + timeStamp;
     }
+    
+    public String toScoreString() {
+    	return playerName +"," + score; 
+    }
 
     @Override
     public int compareTo(PlayerScore score) {

@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class ScoreProcessor {
 
@@ -31,12 +32,17 @@ public class ScoreProcessor {
         maxHeapMapCache.addScore(score);
     }
 
-    public List<PlayerScore> getTopKScores(int k) {
+//    public List<PlayerScore> getTopKScores(int k) {
+//    	logger.info("getting top " + k + "scores...");
+//        return maxHeapMapCache.getTopKScores(k);
+//    }
+    
+    public List<String> getTopKScores(int k) {
     	logger.info("getting top " + k + "scores...");
-        return maxHeapMapCache.getTopKScores(k);
+        return maxHeapMapCache.getTopKScores(k).stream().map(score -> score.toScoreString()).collect(Collectors.toList());
     }
 
-    public List<PlayerScore> getTopKScoresFromFile(int k) {
+    public List<String> getTopKScoresFromFile(int k) {
         try {
             maxHeapMapCache.clear();
             scoreDao.dumpCacheToFile();
@@ -44,7 +50,7 @@ public class ScoreProcessor {
             scoreProcessorsList.forEach(score -> maxHeapMapCache.addScore(score));
             logger.info("Getting top " + k + " scores from file...");
             // getTop5
-            return maxHeapMapCache.getTopKScores(k);
+            return maxHeapMapCache.getTopKScores(k).stream().map(score -> score.toScoreString()).collect(Collectors.toList());
         } catch (FileNotFoundException e) {
         	e.printStackTrace();
             return Collections.emptyList();

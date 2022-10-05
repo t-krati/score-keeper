@@ -52,14 +52,14 @@ public class ScoreControllerTest {
 
     @Test
     public void testGetTop5ScoresSuccessful() {
-        when(scoreProcessor.getTopKScores(5)).thenReturn(Arrays.asList(new PlayerScore("A",10)));
+        when(scoreProcessor.getTopKScores(5)).thenReturn(Arrays.asList((new PlayerScore("A",10)).toScoreString()));
         ResponseEntity<String> response = scoreController.getTop5Scores();
         assertEquals("[A,10]", response.getBody());
     }
 
     @Test
     public void testGetTop5ScoresFromFileSuccessful() {
-        when(scoreProcessor.getTopKScoresFromFile(5)).thenReturn(Arrays.asList(new PlayerScore("A",10)));
+        when(scoreProcessor.getTopKScoresFromFile(5)).thenReturn(Arrays.asList((new PlayerScore("A",10)).toScoreString()));
         ResponseEntity<String> response = scoreController.getTop5ScoresFromFile();
         assertEquals("[A,10]", response.getBody());
     }
