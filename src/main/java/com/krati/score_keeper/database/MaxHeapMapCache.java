@@ -7,14 +7,16 @@ import com.krati.score_keeper.model.PlayerScore;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class MaxHeapMapCache {
 
     private static MaxHeapMapCache maxHeapMapCache = null;
-    HashMap<String, Integer> positions;
-    PlayerScore[] maxHeap;
-    int max = 100000;
-    int size;
+    private HashMap<String, Integer> positions;
+    private PlayerScore[] maxHeap;
+    private int max = 100000;
+    private int size;
+    Logger logger = Logger.getLogger("MaxHeapMapCache");
     
     private MaxHeapMapCache() {
         positions = new HashMap<>();
@@ -23,17 +25,23 @@ public class MaxHeapMapCache {
     }
 
     public static MaxHeapMapCache getInstance() {
-        if (maxHeapMapCache == null)
-            maxHeapMapCache = new MaxHeapMapCache();
+        if (maxHeapMapCache == null) {
+        	synchronized(MaxHeapMapCache.class) {
+        		if(maxHeapMapCache == null)
+        			maxHeapMapCache = new MaxHeapMapCache();
+        	}
+        	
+        }
+            
         return maxHeapMapCache;
     }
 
-    public void clear() {
+    synchronized public void clear() {
         positions.clear();
         size = 0;
     }
 
-    public void addScore(PlayerScore score) {
+    synchronized public void addScore(PlayerScore score) {
         if (positions.containsKey(score.getPlayerName())) {
             int curPosition = positions.get(score.getPlayerName());
             PlayerScore newScore = new PlayerScore(score.getPlayerName(), score.getScore() + maxHeap[curPosition].getScore());

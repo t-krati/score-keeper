@@ -6,15 +6,15 @@ import com.krati.score_keeper.model.PlayerScore;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
 public class FileDatabase {
     private final Logger logger = Logger.getLogger("FileDatabase");
 
-    public List<String> getAllScores() {
+    public List<String> getAllScores() throws FileNotFoundException {
         try {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(Constants.fileName))));
             List<String> scores = new ArrayList<>();
@@ -26,13 +26,13 @@ public class FileDatabase {
             return scores;
         } catch (Exception e) {
             logger.severe("Error while reading file");
+            throw new FileNotFoundException();
         }
-        return Collections.emptyList();
     }
 
     public void appendScores(List<PlayerScore> scores) {
         try {
-            BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(Files.newOutputStream(Paths.get(Constants.fileName))));
+            BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(Files.newOutputStream(Paths.get(Constants.fileName),StandardOpenOption.CREATE,StandardOpenOption.APPEND)));
             scores.forEach(score -> {
                 try {
                     bufferedWriter.append(score.toString());
@@ -50,7 +50,7 @@ public class FileDatabase {
 
     public void appendScore(PlayerScore score) {
         try {
-            BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(Files.newOutputStream(Paths.get(Constants.fileName))));
+            BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(Files.newOutputStream(Paths.get(Constants.fileName),StandardOpenOption.CREATE, StandardOpenOption.APPEND)));
             bufferedWriter.append(score.toString());
             bufferedWriter.newLine();
             bufferedWriter.close();
